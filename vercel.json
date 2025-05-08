@@ -4,28 +4,11 @@
 
   "builds": [
     {
-      "src": "api/**/*.py",
-      "use": "@vercel/python",
-      "config": {
-        "installCommand": "pip install --no-cache-dir --no-compile -r api/requirements.txt",
-        "excludeFiles": "**/{__pycache__,*.pyc,werkzeug/_compat.*}"
-      }
-    },
-
-    {
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": { "distDir": "dist" }
     }
   ],
 
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
-
-  "env": {
-    "PYTHONPATH": "api",
-    "PYTHONDONTWRITEBYTECODE": "1"
-  }
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
