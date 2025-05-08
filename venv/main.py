@@ -305,16 +305,7 @@ def research_agent_endpoint():
 
 
 if __name__ == '__main__':
-
-    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-    app.config['TEMPLATES_AUTO_RELOAD'] = True   # Ensure templates reload
-
-    @app.after_request
-    def add_header(response):
-        response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
-        response.headers['Pragma'] = 'no-cache'
-        response.headers['Expires'] = '0'
-        return response
-
-    app.run(host='0.0.0.0', port=5001, debug=True,
-            use_reloader=False, threaded=True)
+    # Get port from environment variable or default to 5000
+    port = int(os.environ.get('PORT', 5000))
+    # Run the app on all network interfaces
+    app.run(host='0.0.0.0', port=port)

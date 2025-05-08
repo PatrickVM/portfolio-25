@@ -10,7 +10,12 @@
     },
     {
       "src": "venv/main.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "runtime": "python3.9",
+        "maxLambdaSize": "15mb",
+        "installCommand": "pip install -r requirements.txt"
+      }
     }
   ],
   "routes": [
