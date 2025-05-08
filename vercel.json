@@ -1,19 +1,31 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "outputDirectory": "frontend/dist",
+  "version": 2,
+
+  "builds": [
+    {
+      "src": "api/**/*.py",
+      "use": "@vercel/python",
+      "config": {
+        "installCommand": "pip install --no-cache-dir --no-compile -r api/requirements.txt",
+        "excludeFiles": "**/__pycache__/**"
+      }
+    },
+
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    }
+  ],
+
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
-  "functions": {
-    "api/*.py": {
-      "installCommand": "PYTHONDONTWRITEBYTECODE=1 pip install --no-cache-dir -r api/requirements.txt",
-      "maxDuration": 30,
-      "memory": 1024,
-      "excludeFiles": "**/__pycache__/**"
-    }
-  },
+
   "env": {
-    "PYTHONPATH": "api"
+    "PYTHONPATH": "api",
+    "PYTHONDONTWRITEBYTECODE": "1"
   }
 }
