@@ -7,7 +7,7 @@
       "config": { "distDir": "dist" }
     },
     {
-      "src": "api/*.py",
+      "src": "api/**/*.py",
       "use": "@vercel/python",
       "config": {
         "installCommand": "pip install -r api/requirements.txt --no-cache-dir --verbose"
