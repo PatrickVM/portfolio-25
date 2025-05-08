@@ -8,7 +8,7 @@
       "use": "@vercel/python",
       "config": {
         "installCommand": "pip install --no-cache-dir --no-compile -r api/requirements.txt",
-        "excludeFiles": "**/__pycache__/**"
+        "excludeFiles": "**/{__pycache__,*.pyc,werkzeug/_compat.*}"
       }
     },
 
