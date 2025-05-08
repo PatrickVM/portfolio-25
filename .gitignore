@@ -12,6 +12,7 @@ api/.venv/
 .coverage
 htmlcov/
 api/*.log
+**/*.pyc
 
 # Vercel output
 .vercel/
