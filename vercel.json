@@ -9,7 +9,7 @@
       }
     },
     {
-      "src": "venv/main.py",
+      "src": "api/main.py",
       "use": "@vercel/python",
       "config": {
         "runtime": "python3.9",
@@ -21,7 +21,7 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "venv/main.py"
+      "dest": "api/main.py"
     },
     {
       "src": "/(.*)",

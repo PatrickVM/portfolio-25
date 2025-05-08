@@ -6,7 +6,7 @@ A full-stack application featuring an AI-powered portfolio website with a React 
 
 ```
 ai-agent-app/
-├── venv/                # Backend code and virtual environment
+├── api/                # Backend code (Flask app and agents)
 │   ├── main.py         # Main Flask application
 │   ├── agents/         # AI agent implementations
 │   │   ├── base_agent.py
@@ -66,7 +66,7 @@ ai-agent-app/
 
 5. Start the Flask development server:
    ```bash
-   cd venv
+   export FLASK_APP=api/main.py
    flask run
    ```
    The backend will be available at `http://localhost:5000`
@@ -138,7 +138,7 @@ Required environment variables:
 
 - `GROQ_API_KEY`: Your Groq API key for AI agent functionality
 - `FLASK_ENV`: Environment setting (development/production)
-- `FLASK_APP`: Path to the Flask application (venv/main.py)
+- `FLASK_APP`: Path to the Flask application (api/main.py)
 
 ## Contributing
 
