@@ -9,7 +9,7 @@
     "api/*.py": {
       "maxDuration": 30,
       "memory": 1024,
-      "excludeFiles": "**/{__pycache__,*.pyc}/**"
+      "excludeFiles": ["**/__pycache__/**", "**/*.pyc"]
     }
   },
   "env": {
