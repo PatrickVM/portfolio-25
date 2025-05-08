@@ -6,15 +6,16 @@ frontend/dist/
 api/.venv/
 **/__pycache__/
 **/*.py[cod]
-**/*.so
 **/*.dist-info/
-__pycache__/
-*.pyc
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
 
 # Vercel output
 .vercel/
+.output/
 
 # Misc
 *.log
 .DS_Store
-bin/

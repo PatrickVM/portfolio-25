@@ -10,7 +10,8 @@
       "src": "api/**/*.py",
       "use": "@vercel/python",
       "config": {
-        "installCommand": "pip install -r api/requirements.txt --no-cache-dir --verbose"
+        "installCommand": "pip install -r api/requirements.txt --no-cache-dir --verbose",
+        "buildCommand": "find . -type d -name '__pycache__' -exec rm -r {} + && find . -type f -name '*.pyc' -delete"
       }
     }
   ],
