@@ -7,10 +7,19 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
 dist
 dist-ssr
 *.local
+
+# Environment files
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
 
 # Editor directories and files
 .vscode/*
@@ -22,3 +31,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Debug files
+debug.log
+npm-debug.log*
+
+# API keys and secrets
+*.pem
+*.key
+*.cert
+*.p12
+*.pfx
+*.crt
+
+# Local development files
+*.sqlite
+*.db
+.vercel
