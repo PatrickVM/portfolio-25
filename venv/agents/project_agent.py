@@ -25,15 +25,7 @@ class ProjectAgent(BaseAgent):
                 "highlights": ["Landing Page", "Easy to use", "Sleek Design", "Progressive Web App", "Stripe Integration"],
                 "github_link": "https://github.com/PatrickVM/vc-lms",
                 "demo_link": "https://www.thevoyage.us/"
-            },
-            # "project3": {
-            #     "name": "Data Visualization Dashboard",
-            #     "tech_stack": ["Python", "Django", "D3.js", "PostgreSQL"],
-            #     "description": "An interactive dashboard for visualizing complex datasets with filtering, sorting, and export capabilities.",
-            #     "highlights": ["Interactive charts", "Data filtering", "CSV/PDF export", "Responsive design"],
-            #     "github_link": "https://github.com/username/data-dashboard",
-            #     "demo_link": "https://dataviz-demo.example.com"
-            # }
+            }
         }
 
     def get_project_list(self):
