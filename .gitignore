@@ -8,6 +8,8 @@ api/.venv/
 **/*.py[cod]
 **/*.so
 **/*.dist-info/
+__pycache__/
+*.pyc
 
 # Vercel output
 .vercel/
