@@ -3,4 +3,8 @@ uvicorn==0.27.1
 python-dotenv==1.0.1
 pydantic==2.6.1
 httpx==0.26.0
-python-multipart==0.0.9 
+python-multipart==0.0.9
+flask==3.0.2
+flask-cors==4.0.0
+requests==2.31.0
+gunicorn==21.2.0 
