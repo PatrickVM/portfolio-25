@@ -1,132 +1,152 @@
-# AI Agent App
+# AI Agent Portfolio App
 
-A full-stack application with a React frontend and FastAPI backend, designed to be deployed on Vercel.
+A full-stack application featuring an AI-powered portfolio website with a React frontend and Flask backend, designed for deployment on Vercel.
 
 ## Project Structure
 
 ```
 ai-agent-app/
-├── api/                # Backend FastAPI server
-│   └── main.py        # Main API entry point
-├── frontend/          # React frontend application
-│   ├── src/          # Source code
-│   ├── public/       # Static assets
-│   └── package.json  # Frontend dependencies
-├── requirements.txt   # Python dependencies
-└── vercel.json       # Vercel deployment configuration
+├── venv/                # Backend code and virtual environment
+│   ├── main.py         # Main Flask application
+│   ├── agents/         # AI agent implementations
+│   │   ├── base_agent.py
+│   │   ├── welcome_agent.py
+│   │   ├── project_agent.py
+│   │   ├── career_agent.py
+│   │   ├── client_agent.py
+│   │   └── research_agent.py
+│   └── ...
+├── frontend/           # React frontend
+│   ├── src/
+│   ├── public/
+│   └── package.json
+├── .env.example        # Example environment variables
+├── .gitignore         # Git ignore rules
+├── requirements.txt    # Python dependencies
+└── vercel.json        # Vercel configuration
 ```
 
 ## Prerequisites
 
 - Node.js (v18 or higher)
 - Python (v3.8 or higher)
-- Git
+- Vercel CLI (for deployment)
+- Groq API key
 
 ## Local Development Setup
 
 ### Backend Setup
 
-1. Create and activate a virtual environment:
+1. Navigate to the project root:
+
+   ```bash
+   cd ai-agent-app
+   ```
+
+2. Create and activate a Python virtual environment:
 
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
-2. Install Python dependencies:
+3. Install Python dependencies:
 
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Create a `.env` file in the root directory:
+4. Create a `.env` file in the root directory:
 
    ```bash
    cp .env.example .env
-   # Edit .env with your configuration
    ```
 
-4. Start the backend server:
+   Then edit `.env` and add your Groq API key.
+
+5. Start the Flask development server:
    ```bash
-   cd api
-   uvicorn main:app --reload
+   cd venv
+   flask run
    ```
+   The backend will be available at `http://localhost:5000`
 
 ### Frontend Setup
 
-1. Install Node.js dependencies:
+1. Navigate to the frontend directory:
 
    ```bash
    cd frontend
+   ```
+
+2. Install Node.js dependencies:
+
+   ```bash
    npm install
    ```
 
-2. Start the development server:
+3. Start the development server:
    ```bash
    npm run dev
    ```
-
-The frontend will be available at `http://localhost:5173` and the backend at `http://localhost:8000`.
-
-## API Documentation
-
-Once the backend server is running, you can access:
-
-- Swagger UI documentation: `http://localhost:8000/docs`
-- ReDoc documentation: `http://localhost:8000/redoc`
+   The frontend will be available at `http://localhost:5173`
 
 ## Available Scripts
 
 ### Backend
 
-- `uvicorn main:app --reload`: Start the development server
-- `uvicorn main:app`: Start the production server
+- `flask run`: Start the Flask development server
+- `flask test`: Run backend tests (if implemented)
 
 ### Frontend
 
 - `npm run dev`: Start the development server
 - `npm run build`: Build for production
-- `npm run preview`: Preview production build
+- `npm run preview`: Preview the production build
 - `npm run lint`: Run ESLint
+
+## API Documentation
+
+Once the backend server is running, you can access the API documentation at:
+
+- Swagger UI: `http://localhost:5000/api/docs`
+- ReDoc: `http://localhost:5000/api/redoc`
 
 ## Deployment
 
-This project is configured for deployment on Vercel. The `vercel.json` file handles:
+### Vercel Deployment
 
-- Building both frontend and backend
-- Routing API requests to the Python server
-- Serving the frontend static files
+1. Install Vercel CLI:
 
-### Deployment Steps
+   ```bash
+   npm install -g vercel
+   ```
 
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Configure environment variables in the Vercel dashboard
-4. Deploy!
+2. Deploy to Vercel:
 
-## Environment Variables
+   ```bash
+   vercel
+   ```
 
-### Backend (.env)
+3. Configure environment variables in the Vercel dashboard:
+   - `GROQ_API_KEY`: Your Groq API key
+   - `FLASK_ENV`: Set to "production"
 
-```
-PORT=8000
-# Add other backend environment variables
-```
+### Environment Variables
 
-### Frontend (.env)
+Required environment variables:
 
-```
-VITE_API_URL=http://localhost:8000
-# Add other frontend environment variables
-```
+- `GROQ_API_KEY`: Your Groq API key for AI agent functionality
+- `FLASK_ENV`: Environment setting (development/production)
+- `FLASK_APP`: Path to the Flask application (venv/main.py)
 
 ## Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
 ## License
 
