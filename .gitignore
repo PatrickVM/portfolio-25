@@ -6,6 +6,7 @@ frontend/dist/
 api/.venv/
 **/__pycache__/
 **/*.py[cod]
+**/*.so
 **/*.dist-info/
 
 # Vercel output
