@@ -7,11 +7,9 @@
       "config": { "distDir": "dist" }
     },
     {
-      "src": "api/**/*.py",
+      "src": "api/*.py",
       "use": "@vercel/python",
       "config": {
-        "runtime": "python3.9",
-        "maxLambdaSize": "15mb",
         "installCommand": "pip install -r api/requirements.txt --no-cache-dir --verbose"
       }
     }
