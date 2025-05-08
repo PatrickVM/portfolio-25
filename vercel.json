@@ -6,5 +6,20 @@
   ],
   "env": {
     "PYTHONDONTWRITEBYTECODE": "1"
-  }
+  },
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist",
+        "buildCommand": "cd frontend && npm install && npm run build"
+      }
+    },
+    {
+      "src": "api/**/*.py",
+      "use": "@vercel/python"
+    }
+  ]
 }
