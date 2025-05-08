@@ -4,28 +4,20 @@
     {
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+      "config": { "distDir": "dist" }
     },
     {
-      "src": "api/main.py",
+      "src": "api/**/*.py",
       "use": "@vercel/python",
       "config": {
         "runtime": "python3.9",
         "maxLambdaSize": "15mb",
-        "installCommand": "pip install -r requirements.txt"
+        "installCommand": "pip install -r api/requirements.txt"
       }
     }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "api/main.py"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "frontend/dist/$1"
-    }
+    { "src": "/api/(.*)", "dest": "api/$1.py" },
+    { "src": "/(.*)", "dest": "frontend/dist/$1" }
   ]
 }
