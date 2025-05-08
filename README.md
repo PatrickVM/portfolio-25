@@ -1,153 +1,77 @@
 # AI Agent Portfolio App
 
-A full-stack application featuring an AI-powered portfolio website with a React frontend and Flask backend, designed for deployment on Vercel.
+A portfolio website with AI-powered agents for different sections.
 
 ## Project Structure
 
 ```
 ai-agent-app/
-├── api/                # Backend code (Flask app and agents)
+├── api/                 # Python backend
 │   ├── main.py         # Main Flask application
-│   ├── agents/         # AI agent implementations
-│   │   ├── base_agent.py
-│   │   ├── welcome_agent.py
-│   │   ├── project_agent.py
-│   │   ├── career_agent.py
-│   │   ├── client_agent.py
-│   │   └── research_agent.py
-│   └── ...
+│   ├── requirements.txt # Python dependencies
+│   ├── gunicorn_config.py # Gunicorn configuration
+│   └── run_prod.sh     # Production run script
 ├── frontend/           # React frontend
-│   ├── src/
-│   ├── public/
-│   └── package.json
-├── .env.example        # Example environment variables
-├── .gitignore         # Git ignore rules
-├── requirements.txt    # Python dependencies
+│   ├── src/           # Source files
+│   └── package.json   # Node dependencies
 └── vercel.json        # Vercel configuration
 ```
 
-## Prerequisites
+## Environment Variables
 
-- Node.js (v18 or higher)
-- Python (v3.8 or higher)
-- Vercel CLI (for deployment)
-- Groq API key
+Create a `.env` file in the `api` directory with:
 
-## Local Development Setup
+```
+GROQ_API_KEY=your_groq_api_key_here
+```
 
-### Backend Setup
-
-1. Navigate to the project root:
-
-   ```bash
-   cd ai-agent-app
-   ```
-
-2. Create and activate a Python virtual environment:
-
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. Install Python dependencies:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Create a `.env` file in the root directory:
-
-   ```bash
-   cp .env.example .env
-   ```
-
-   Then edit `.env` and add your Groq API key.
-
-5. Start the Flask development server:
-   ```bash
-   export FLASK_APP=api/main.py
-   flask run
-   ```
-   The backend will be available at `http://localhost:5000`
-
-### Frontend Setup
-
-1. Navigate to the frontend directory:
-
-   ```bash
-   cd frontend
-   ```
-
-2. Install Node.js dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-   The frontend will be available at `http://localhost:5173`
-
-## Available Scripts
+## Local Development
 
 ### Backend
 
-- `flask run`: Start the Flask development server
-- `flask test`: Run backend tests (if implemented)
+```bash
+cd api
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python main.py
+```
 
 ### Frontend
 
-- `npm run dev`: Start the development server
-- `npm run build`: Build for production
-- `npm run preview`: Preview the production build
-- `npm run lint`: Run ESLint
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-## API Documentation
+## Production Deployment
 
-Once the backend server is running, you can access the API documentation at:
+1. Push to GitHub:
 
-- Swagger UI: `http://localhost:5000/api/docs`
-- ReDoc: `http://localhost:5000/api/redoc`
+```bash
+git add .
+git commit -m "chore: prepare for production deployment"
+git push origin main
+```
 
-## Deployment
+2. Vercel will automatically deploy from the GitHub repository.
 
-### Vercel Deployment
+## API Endpoints
 
-1. Install Vercel CLI:
+- `/api/welcome` - Welcome agent
+- `/api/project` - Project information
+- `/api/career` - Career information
+- `/api/client` - Client services
+- `/api/research` - Technology research
 
-   ```bash
-   npm install -g vercel
-   ```
+## Production Configuration
 
-2. Deploy to Vercel:
+The application uses:
 
-   ```bash
-   vercel
-   ```
-
-3. Configure environment variables in the Vercel dashboard:
-   - `GROQ_API_KEY`: Your Groq API key
-   - `FLASK_ENV`: Set to "production"
-
-### Environment Variables
-
-Required environment variables:
-
-- `GROQ_API_KEY`: Your Groq API key for AI agent functionality
-- `FLASK_ENV`: Environment setting (development/production)
-- `FLASK_APP`: Path to the Flask application (api/main.py)
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+- Gunicorn as the WSGI server
+- Multiple worker processes
+- Proper logging configuration
+- Error handling
+- CORS support
+- Environment variable management

@@ -4,24 +4,56 @@ from dotenv import load_dotenv
 import json
 import requests
 from flask_cors import CORS
+import logging
+from logging.handlers import RotatingFileHandler
+import sys
 
-
+# Load environment variables
 load_dotenv()
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        RotatingFileHandler('api.log', maxBytes=10000000, backupCount=5),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
+logger = logging.getLogger(__name__)
 
+# Initialize Flask app
 app = Flask(__name__)
 CORS(app)
 
+# Configuration
+app.config.update(
+    JSON_SORT_KEYS=False,
+    JSONIFY_PRETTYPRINT_REGULAR=True,
+    MAX_CONTENT_LENGTH=16 * 1024 * 1024  # 16MB max upload
+)
+
+# Error handling
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({'error': 'Not found'}), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    logger.error(f"Internal server error: {str(error)}")
+    return jsonify({'error': 'Internal server error'}), 500
 
 class BaseAgent:
     def __init__(self, name, description):
         self.name = name
         self.description = description
-
         self.api_key = os.getenv("GROQ_API_KEY")
+        
+        if not self.api_key:
+            logger.error("GROQ_API_KEY environment variable is not set")
+            raise ValueError("GROQ_API_KEY environment variable is not set")
 
     def get_response(self, prompt):
-
         try:
             headers = {
                 "Authorization": f"Bearer {self.api_key}",
@@ -41,15 +73,22 @@ class BaseAgent:
             response = requests.post(
                 "https://api.groq.com/openai/v1/chat/completions",
                 headers=headers,
-                json=data
+                json=data,
+                timeout=30  # Add timeout
             )
 
-            if response.status_code == 200:
-                return response.json()["choices"][0]["message"]["content"]
-            else:
-                return f"Error: {response.status_code} - {response.text}"
+            response.raise_for_status()  # Raise exception for bad status codes
+            return response.json()["choices"][0]["message"]["content"]
+            
+        except requests.exceptions.Timeout:
+            logger.error("Request to Groq API timed out")
+            return "Sorry, the request timed out. Please try again."
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error calling Groq API: {str(e)}")
+            return f"Sorry, there was an error processing your request. Please try again later."
         except Exception as e:
-            return f"An error occurred: {str(e)}"
+            logger.error(f"Unexpected error in get_response: {str(e)}")
+            return "An unexpected error occurred. Please try again later."
 
 
 class WelcomeAgent(BaseAgent):
@@ -159,11 +198,16 @@ class ResearchAgent(BaseAgent):
         return self.get_response("Describe current trends in software development and technology that are important for developers to be aware of.")
 
 
-welcome_agent = WelcomeAgent()
-project_agent = ProjectAgent()
-career_agent = CareerAgent()
-client_agent = ClientAgent()
-research_agent = ResearchAgent()
+# Initialize agents with error handling
+try:
+    welcome_agent = WelcomeAgent()
+    project_agent = ProjectAgent()
+    career_agent = CareerAgent()
+    client_agent = ClientAgent()
+    research_agent = ResearchAgent()
+except ValueError as e:
+    logger.error(f"Failed to initialize agents: {str(e)}")
+    sys.exit(1)
 
 
 @app.route('/static/images/default_avatar.png')
@@ -305,7 +349,7 @@ def research_agent_endpoint():
 
 
 if __name__ == '__main__':
-    # Get port from environment variable or default to 5000
-    port = int(os.environ.get('PORT', 5000))
-    # Run the app on all network interfaces
+    # This block will only be used when running directly with Python
+    # In production, Gunicorn will be used instead
+    port = int(os.getenv("PORT", 5000))
     app.run(host='0.0.0.0', port=port)

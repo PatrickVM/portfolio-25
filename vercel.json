@@ -4,18 +4,33 @@
     {
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
+      "config": {
+        "distDir": "dist",
+        "buildCommand": "cd frontend && npm install && npm run build"
+      }
     },
     {
-      "src": "api/**/*.py",
+      "src": "api/main.py",
       "use": "@vercel/python",
       "config": {
-        "installCommand": "find api -type d -name '__pycache__' -exec rm -rf {} + && pip install -r api/requirements.txt --no-cache-dir --verbose"
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9",
+        "buildCommand": "pip install -r api/requirements.txt --no-cache-dir",
+        "installCommand": "pip install -r api/requirements.txt --no-cache-dir"
       }
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "api/$1.py" },
-    { "src": "/(.*)", "dest": "frontend/dist/$1" }
-  ]
+    {
+      "src": "/api/(.*)",
+      "dest": "api/main.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/dist/$1"
+    }
+  ],
+  "env": {
+    "PYTHONPATH": "api"
+  }
 }
