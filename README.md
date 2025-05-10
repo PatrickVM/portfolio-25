@@ -13,7 +13,7 @@ ai-agent-app/
 │   └── run_prod.sh     # Production run script
 ├── frontend/           # React frontend
 │   ├── src/           # Source files
-│   └── package.json   # Node dependencies
+│   └── package.json   # Node dependencies random for rerun
 └── vercel.json        # Vercel configuration
 ```
 
