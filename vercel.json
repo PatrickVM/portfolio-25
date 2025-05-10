@@ -2,12 +2,8 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/**/*.py",
-      "use": "@vercel/python",
-      "config": {
-        "runtime": "python3.12",
-        "installCommand": "pip install -r requirements.txt --no-cache-dir"
-      }
+      "src": "api/main.py",
+      "use": "@vercel/python"
     },
     {
       "src": "frontend/package.json",
@@ -17,9 +13,8 @@
       }
     }
   ],
-
   "routes": [
-    { "src": "/api/(.*)", "dest": "api/$1.py" },
+    { "src": "/api/(.*)", "dest": "api/main.py" },
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "frontend/dist/index.html" }
   ]
