@@ -1,12 +1,11 @@
 {
-  "version": "revert back if needed - not working",
+  "version": 2,
   "builds": [
     {
       "src": "api/main.py",
       "use": "@vercel/python",
       "config": {
-        "installCommand": "pip install -r requirements.txt --no-cache-dir",
-        "entrypoint": "api/main.py"
+        "installCommand": "pip install -r api/requirements.txt --no-cache-dir"
       }
     },
     {
@@ -18,16 +17,8 @@
     }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ],
-  "env": {
-    "PYTHONDONTWRITEBYTECODE": "1"
-  }
+    { "src": "/api/(.*)", "dest": "api/main.py" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "frontend/dist/index.html" }
+  ]
 }
