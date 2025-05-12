@@ -12,12 +12,28 @@
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist"
+        "distDir": "dist",
+        "installCommand": "cd frontend && npm install"
       }
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "api/main.py" },
+    {
+      "src": "/api/(.*)",
+      "dest": "api/main.py",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET,POST,PUT,DELETE,OPTIONS"
+        },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
+      ]
+    },
+    {
+      "src": "/static/images/(.*)",
+      "dest": "api/main.py"
+    },
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "frontend/dist/index.html" }
   ]
