@@ -124,9 +124,8 @@ class ProjectAgent(BaseAgent):
 
     def get_project_details(self, project_id):
         project_prompts = {
-            "project1": "Describe in detail an e-commerce platform project for a programmer's portfolio. Include technologies used, challenges overcome, and key features.",
-            "project2": "Describe in detail a task management application project for a programmer's portfolio. Include technologies used, challenges overcome, and key features.",
-            "project3": "Describe in detail a data visualization dashboard project for a programmer's portfolio. Include technologies used, challenges overcome, and key features."
+            "project1": "Describe in detail an exchange platform project for a programmer's portfolio. Include technologies used, challenges overcome, and key features.",
+            "project2": "Describe in detail a learning management system project for a programmer's portfolio. Include technologies used, challenges overcome, and key features.",
         }
 
         prompt = project_prompts.get(
@@ -272,7 +271,7 @@ def project_agent_endpoint():
         response = project_agent.get_response(
             f"The user asked: '{message}'. Respond as if you are a project specialist for a portfolio website. "
             "If they're asking about a specific project, suggest they mention one of the projects: "
-            "E-commerce Platform, Task Management App, or Data Visualization Dashboard."
+            "Exchange Platform, a Learning Management System for Voyage Church."
         )
 
     return jsonify({'response': response})
