@@ -166,6 +166,7 @@ function Services() {
               <ul className="list-disc pl-5 space-y-1 mb-4">
                 <li>System Architecture</li>
                 <li>Database Design</li>
+                <li>A.I. Solutions</li>
                 <li>Performance Optimization</li>
               </ul>
               <h6 className="font-semibold mb-2">Details</h6>
