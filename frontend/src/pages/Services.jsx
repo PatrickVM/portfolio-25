@@ -93,7 +93,7 @@ function Services() {
                   <strong>Pricing Model:</strong> Project-based or hourly
                 </li>
                 <li>
-                  <strong>Price Range:</strong> $5,000 - $50,000 depending on
+                  <strong>Price Range:</strong> $5,500 - $50,000 depending on
                   complexity
                 </li>
                 <li>
