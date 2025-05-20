@@ -7,6 +7,7 @@ from flask_cors import CORS
 import logging
 from logging.handlers import RotatingFileHandler
 import sys
+from flask_mail import Mail, Message
 
 # Load environment variables
 load_dotenv()
@@ -31,6 +32,17 @@ app.config.update(
     JSONIFY_PRETTYPRINT_REGULAR=True,
     MAX_CONTENT_LENGTH=16 * 1024 * 1024  # 16MB max upload
 )
+
+# Email configuration
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.getenv('GMAIL_USER')
+app.config['MAIL_PASSWORD'] = os.getenv('GMAIL_APP_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('GMAIL_USER')
+
+# Initialize Flask-Mail
+mail = Mail(app)
 
 # Error handling
 @app.errorhandler(404)
@@ -196,6 +208,31 @@ class ResearchAgent(BaseAgent):
         return self.get_response("Describe current trends in software development and technology that are important for developers to be aware of.")
 
 
+class EmailAgent:
+    def __init__(self):
+        self.mail = mail
+
+    def send_contact_email(self, name, email, subject, message):
+        try:
+            msg = Message(
+                subject=f"Portfolio Contact: {subject}",
+                recipients=[os.getenv('GMAIL_USER')],
+                body=f"""
+                New contact form submission:
+                
+                From: {name} <{email}>
+                Subject: {subject}
+                
+                Message:
+                {message}
+                """
+            )
+            self.mail.send(msg)
+            return True, "Email sent successfully"
+        except Exception as e:
+            logger.error(f"Error sending email: {str(e)}")
+            return False, "Failed to send email"
+
 # Initialize agents with error handling
 try:
     welcome_agent = WelcomeAgent()
@@ -207,6 +244,8 @@ except ValueError as e:
     logger.error(f"Failed to initialize agents: {str(e)}")
     sys.exit(1)
 
+# Initialize email agent
+email_agent = EmailAgent()
 
 @app.route('/static/images/default_avatar.png')
 @app.route('/static/images/default_project.jpg')
@@ -344,6 +383,35 @@ def research_agent_endpoint():
         response = research_agent.search_web(message)
 
     return jsonify({'response': response})
+
+
+@app.route('/api/contact', methods=['POST'])
+def contact_endpoint():
+    try:
+        data = request.get_json()
+        
+        # Validate required fields
+        required_fields = ['name', 'email', 'subject', 'message']
+        for field in required_fields:
+            if field not in data:
+                return jsonify({'error': f'Missing required field: {field}'}), 400
+
+        # Send email
+        success, message = email_agent.send_contact_email(
+            data['name'],
+            data['email'],
+            data['subject'],
+            data['message']
+        )
+
+        if success:
+            return jsonify({'message': 'Message sent successfully'}), 200
+        else:
+            return jsonify({'error': message}), 500
+
+    except Exception as e:
+        logger.error(f"Error in contact endpoint: {str(e)}")
+        return jsonify({'error': 'Internal server error'}), 500
 
 
 if __name__ == '__main__':
