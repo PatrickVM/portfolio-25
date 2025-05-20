@@ -45,7 +45,7 @@ function Contact() {
       }
     } catch (error) {
       setFormResponse({
-        type: "error",
+        type: error,
         message: "An error occurred. Please try again later.",
       });
     }
